@@ -20,7 +20,7 @@ export const profile = {
   ],
   socials: {
     github: "https://github.com/EpicAJS",
-    linkedin: "https://www.linkedin.com/in/abhijaysalvi",
+    linkedin: "https://www.linkedin.com/in/abhijay-salvi",
     email: "mailto:abhijaysalvi5@gmail.com",
   },
   education: {

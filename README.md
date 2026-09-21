@@ -41,7 +41,9 @@ To add a project, append an object to `tracks` in `tracks.ts` with
 and gets its own `/track/<id>` page. Set `featured: true` to surface it on the
 home page.
 
-The résumé PDF served at `/Abhijay_Salvi_Resume.pdf` lives in `public/`.
+The résumé PDF is deliberately **not** published on the site — it contains a
+phone number. `/recruiter` is the shareable résumé, and its Print button lets
+anyone save their own PDF of that page.
 
 ### Cover photos
 
@@ -75,6 +77,7 @@ modern formats automatically. See `public/covers/README.md` for details.
 | `/album/[id]` | `experience`, `projects`, `research` |
 | `/track/[id]` | Detail page for one role or build |
 | `/artist` | About me |
+| `/blog`, `/blog/[slug]` | Writing, as an album of posts |
 | `/search` | Client-side search across everything |
 | `/recruiter` | Clean, linkable résumé view — send this on applications |
 | `/playlist/ama` | Ask Me Anything |

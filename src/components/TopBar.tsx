@@ -67,14 +67,6 @@ export default function TopBar() {
       </div>
 
       <div className="flex items-center gap-2 sm:gap-3 shrink-0">
-        <a
-          href="/Abhijay_Salvi_Resume.pdf"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="hidden lg:inline text-sm font-bold text-muted hover:text-white transition-colors"
-        >
-          Résumé
-        </a>
         <Link
           href="/recruiter"
           className="rounded-full bg-white px-4 py-2 text-sm font-bold text-black whitespace-nowrap transition hover:scale-105"

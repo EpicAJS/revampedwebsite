@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { profile, skills } from "@/content/profile";
 import { tracksOfKind } from "@/content/tracks";
+import PrintButton from "@/components/PrintButton";
 
 export const metadata = {
   title: "Résumé",
@@ -21,14 +22,7 @@ export default function RecruiterPage() {
         >
           ← Back to the full site
         </Link>
-        <a
-          href="/Abhijay_Salvi_Resume.pdf"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="rounded-md bg-neutral-900 px-4 py-2 text-sm font-semibold text-white hover:bg-neutral-700 transition-colors"
-        >
-          Download PDF
-        </a>
+        <PrintButton />
       </div>
 
       <header className="mb-10 border-b border-neutral-200 pb-8">

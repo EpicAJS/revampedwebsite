@@ -27,12 +27,14 @@ export default function SearchPage() {
       title: a.title,
       subtitle: `${a.tracks.length} tracks`,
       art: a.art,
+      image: a.image,
     })),
     ...playlists.map((p) => ({
       href: p.href,
       title: p.title,
       subtitle: "Playlist",
       art: p.art,
+      image: p.image,
     })),
   ];
 
@@ -77,7 +79,9 @@ export default function SearchPage() {
                 >
                   <AlbumArt
                     art={track.art}
+                    image={track.image}
                     label={track.title}
+                    sizes="48px"
                     className="w-12 h-12 shrink-0"
                   />
                   <span className="min-w-0">

@@ -9,6 +9,8 @@ export type Album = {
   kind: TrackKind;
   year: string;
   art: [string, string];
+  /** Optional cover photo in `public/covers/`, e.g. "/covers/projects.jpg". */
+  image?: string;
   tracks: Track[];
 };
 
@@ -19,7 +21,8 @@ function album(
   description: string,
   kind: TrackKind,
   year: string,
-  art: [string, string]
+  art: [string, string],
+  image?: string
 ): Album {
   return {
     id,
@@ -29,6 +32,7 @@ function album(
     kind,
     year,
     art,
+    image,
     tracks: tracksOfKind(kind),
   };
 }
@@ -80,6 +84,8 @@ export type PlaylistMeta = {
   description: string;
   href: string;
   art: [string, string];
+  /** Optional cover photo in `public/covers/`. */
+  image?: string;
 };
 
 export const playlists: PlaylistMeta[] = [

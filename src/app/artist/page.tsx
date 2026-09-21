@@ -27,7 +27,10 @@ export default function ArtistPage() {
         <div className="flex flex-col sm:flex-row items-start sm:items-end gap-6 pt-8">
           <AlbumArt
             art={["#3f3f46", "#18181b"]}
+            image={profile.photo || undefined}
             label={profile.name}
+            priority
+            sizes="(max-width: 640px) 40vw, 192px"
             className="w-36 h-36 sm:w-48 sm:h-48 shrink-0 shadow-2xl"
             rounded="rounded-full"
           />
@@ -59,6 +62,7 @@ export default function ArtistPage() {
                 subtitle: first.org,
                 href: `/track/${first.id}`,
                 art: first.art,
+                image: first.image,
                 duration: parseDuration(trackDuration(first)),
               }}
             />

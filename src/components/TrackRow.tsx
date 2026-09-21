@@ -25,6 +25,7 @@ export default function TrackRow({
     subtitle: track.org,
     href: `/track/${track.id}`,
     art: track.art,
+    image: track.image,
     duration: parseDuration(duration),
   };
 

@@ -44,7 +44,10 @@ export default async function AlbumPage({
         <div className="flex flex-col sm:flex-row items-start sm:items-end gap-6 pt-6">
           <AlbumArt
             art={album.art}
+            image={album.image}
             label={album.title}
+            priority
+            sizes="(max-width: 640px) 60vw, 224px"
             className="w-40 h-40 sm:w-56 sm:h-56 shrink-0 shadow-2xl"
           />
           <div className="min-w-0">
@@ -80,6 +83,7 @@ export default async function AlbumPage({
                 subtitle: first.org,
                 href: `/track/${first.id}`,
                 art: first.art,
+                image: first.image,
                 duration: parseDuration(trackDuration(first)),
               }}
             />

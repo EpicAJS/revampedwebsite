@@ -1,17 +1,44 @@
+import Image from "next/image";
+
 type Props = {
   art: [string, string];
   label: string;
+  /** Optional cover photo, e.g. "/covers/waresport.jpg". Falls back to art. */
+  image?: string;
   className?: string;
   rounded?: string;
+  sizes?: string;
+  priority?: boolean;
 };
 
-/** Deterministic generated cover art — gradient plus an abstract waveform. */
+/**
+ * Cover art. Uses a real photo when one is supplied, otherwise generates a
+ * deterministic gradient-and-waveform cover so nothing ever looks unfinished.
+ */
 export default function AlbumArt({
   art,
   label,
+  image,
   className = "",
   rounded = "rounded-md",
+  sizes = "(max-width: 768px) 40vw, 240px",
+  priority,
 }: Props) {
+  if (image) {
+    return (
+      <div className={`relative overflow-hidden ${rounded} ${className}`}>
+        <Image
+          src={image}
+          alt={label}
+          fill
+          sizes={sizes}
+          priority={priority}
+          className="object-cover"
+        />
+      </div>
+    );
+  }
+
   const initials = label
     .split(" ")
     .filter(Boolean)

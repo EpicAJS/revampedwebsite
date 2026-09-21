@@ -10,6 +10,7 @@ export default function MediaCard({
   title,
   subtitle,
   art,
+  image,
   round,
   track,
 }: {
@@ -17,6 +18,7 @@ export default function MediaCard({
   title: string;
   subtitle: string;
   art: [string, string];
+  image?: string;
   round?: boolean;
   track?: NowPlaying;
 }) {
@@ -28,7 +30,9 @@ export default function MediaCard({
       <div className="relative">
         <AlbumArt
           art={art}
+          image={image}
           label={title}
+          sizes="(max-width: 640px) 45vw, (max-width: 1280px) 25vw, 220px"
           className="w-full aspect-square shadow-lg"
           rounded={round ? "rounded-full" : "rounded-md"}
         />

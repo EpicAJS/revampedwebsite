@@ -88,6 +88,7 @@ export default function Sidebar() {
               key={item.id}
               href={`/album/${item.id}`}
               art={item.art}
+              image={item.image}
               title={item.title}
               meta={`Album · ${item.tracks.length} tracks`}
               active={pathname === `/album/${item.id}`}
@@ -98,6 +99,7 @@ export default function Sidebar() {
               key={item.id}
               href={item.href}
               art={item.art}
+              image={item.image}
               title={item.title}
               meta="Playlist"
               active={pathname === item.href}
@@ -106,6 +108,7 @@ export default function Sidebar() {
           <LibraryRow
             href="/artist"
             art={["#3f3f46", "#18181b"]}
+            image={profile.photo || undefined}
             title={profile.name}
             meta="Artist"
             active={pathname === "/artist"}
@@ -120,6 +123,7 @@ export default function Sidebar() {
 function LibraryRow({
   href,
   art,
+  image,
   title,
   meta,
   active,
@@ -127,6 +131,7 @@ function LibraryRow({
 }: {
   href: string;
   art: [string, string];
+  image?: string;
   title: string;
   meta: string;
   active?: boolean;
@@ -141,7 +146,9 @@ function LibraryRow({
     >
       <AlbumArt
         art={art}
+        image={image}
         label={title}
+        sizes="48px"
         className="w-12 h-12 shrink-0"
         rounded={round ? "rounded-full" : "rounded"}
       />

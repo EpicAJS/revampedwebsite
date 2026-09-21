@@ -16,6 +16,7 @@ export type NowPlaying = {
   subtitle: string;
   href: string;
   art: [string, string];
+  image?: string;
   /** Runtime in seconds. Visual only today; real audio can supply this later. */
   duration: number;
 };

@@ -17,8 +17,13 @@ export type Track = {
   award?: string;
   links?: { label: string; href: string }[];
   featured?: boolean;
-  /** Two-stop gradient used for generated album art. */
+  /** Two-stop gradient used when no cover photo is set. */
   art: [string, string];
+  /**
+   * Optional cover photo. Drop a square image in `public/covers/` and point
+   * here, e.g. "/covers/waresport.jpg". Omit it to use the generated art.
+   */
+  image?: string;
 };
 
 export const tracks: Track[] = [

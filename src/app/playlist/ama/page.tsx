@@ -23,7 +23,10 @@ export default async function AmaPage() {
         <div className="flex flex-col sm:flex-row items-start sm:items-end gap-6 pt-6">
           <AlbumArt
             art={meta.art}
+            image={meta.image}
             label={meta.title}
+            priority
+            sizes="(max-width: 640px) 55vw, 208px"
             className="w-40 h-40 sm:w-52 sm:h-52 shrink-0 shadow-2xl"
           />
           <div className="min-w-0">

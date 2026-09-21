@@ -21,7 +21,9 @@ export default function Player() {
           <>
             <AlbumArt
               art={current.art}
+              image={current.image}
               label={current.title}
+              sizes="48px"
               className="w-12 h-12 shrink-0"
             />
             <div className="min-w-0">

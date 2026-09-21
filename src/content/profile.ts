@@ -5,6 +5,12 @@ export const profile = {
   taglines: ["Builder", "Creative", "Entrepreneur", "Visionary"],
   location: "Atlanta, GA",
   email: "abhijaysalvi5@gmail.com",
+  /**
+   * Headshot used on the artist page and the "About the artist" card.
+   * Drop a square image in `public/covers/` and set it here, e.g.
+   * "/covers/abhijay.jpg". Leave empty to use generated art.
+   */
+  photo: "",
   intro:
     "CS student at Georgia Tech with a Math minor, focused on full-stack development, robotics, and AI/ML. I like building systems that put complex algorithms behind interfaces people actually want to use.",
   bio: [

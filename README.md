@@ -34,6 +34,30 @@ home page.
 
 The résumé PDF served at `/Abhijay_Salvi_Resume.pdf` lives in `public/`.
 
+### Cover photos
+
+Every cover falls back to a generated gradient, so photos are optional and can
+be added one at a time. Drop a **square** image in `public/covers/`, then point
+at it:
+
+```ts
+// src/content/tracks.ts
+{
+  id: "waresport",
+  image: "/covers/waresport.jpg",   // add this line
+  ...
+}
+
+// src/content/profile.ts
+photo: "/covers/abhijay.jpg",       // headshot, used on the artist page
+
+// src/content/albums.ts — 8th argument to album(...)
+album("projects", "Projects", ..., ["#7c3f2c", "#2e1510"], "/covers/projects.jpg")
+```
+
+Images are served through `next/image`, so they're resized and converted to
+modern formats automatically. See `public/covers/README.md` for details.
+
 ## Routes
 
 | Route | Purpose |

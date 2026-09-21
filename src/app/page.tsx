@@ -13,9 +13,20 @@ export default function Home() {
       href: `/album/${a.id}`,
       title: a.title,
       art: a.art,
+      image: a.image,
     })),
-    ...playlists.map((p) => ({ href: p.href, title: p.title, art: p.art })),
-    { href: "/artist", title: "About Me", art: ["#3f3f46", "#18181b"] as [string, string] },
+    ...playlists.map((p) => ({
+      href: p.href,
+      title: p.title,
+      art: p.art,
+      image: p.image,
+    })),
+    {
+      href: "/artist",
+      title: "About Me",
+      art: ["#3f3f46", "#18181b"] as [string, string],
+      image: profile.photo || undefined,
+    },
   ];
 
   return (
@@ -43,7 +54,9 @@ export default function Home() {
             >
               <AlbumArt
                 art={pick.art}
+                image={pick.image}
                 label={pick.title}
+                sizes="80px"
                 className="w-16 h-16 sm:w-20 sm:h-20 shrink-0"
                 rounded="rounded-none"
               />
@@ -62,12 +75,14 @@ export default function Home() {
               title={track.title}
               subtitle={track.org}
               art={track.art}
+              image={track.image}
               track={{
                 id: track.id,
                 title: track.title,
                 subtitle: track.org,
                 href: `/track/${track.id}`,
                 art: track.art,
+                image: track.image,
                 duration: parseDuration(trackDuration(track)),
               }}
             />
@@ -82,6 +97,7 @@ export default function Home() {
               title={album.title}
               subtitle={`${album.year} · ${album.tracks.length} tracks`}
               art={album.art}
+              image={album.image}
             />
           ))}
         </Shelf>
@@ -94,6 +110,7 @@ export default function Home() {
               title={playlist.title}
               subtitle={playlist.description}
               art={playlist.art}
+              image={playlist.image}
             />
           ))}
           <MediaCard
@@ -101,6 +118,7 @@ export default function Home() {
             title={profile.name}
             subtitle="Artist · The person behind all this"
             art={["#3f3f46", "#18181b"]}
+            image={profile.photo || undefined}
             round
           />
         </Shelf>

@@ -1,39 +1,55 @@
 import type { Metadata } from "next";
-import { Baloo_2, Nunito } from "next/font/google";
+import { Figtree } from "next/font/google";
 import "./globals.css";
-import { site } from "@/content/site";
-import Nav from "@/components/Nav";
-import BlockBackground from "@/components/BlockBackground";
-import CursorTrail from "@/components/CursorTrail";
+import { profile } from "@/content/profile";
+import { PlayerProvider } from "@/lib/player";
+import Sidebar from "@/components/Sidebar";
+import TopBar from "@/components/TopBar";
+import Player from "@/components/Player";
+import MobileNav from "@/components/MobileNav";
 
-const baloo = Baloo_2({
-  variable: "--font-display",
+const figtree = Figtree({
+  variable: "--font-figtree",
   subsets: ["latin"],
-  weight: ["500", "600", "700", "800"],
-});
-
-const nunito = Nunito({
-  variable: "--font-body",
-  subsets: ["latin"],
-  weight: ["400", "600", "700", "800"],
+  weight: ["400", "500", "600", "700", "800", "900"],
 });
 
 export const metadata: Metadata = {
-  title: `${site.name} — Block Blast Edition`,
-  description: site.tagline,
+  metadataBase: new URL("https://abhijaysalvi.com"),
+  title: {
+    default: `${profile.name} — ${profile.role}`,
+    template: `%s · ${profile.name}`,
+  },
+  description: profile.intro,
+  openGraph: {
+    title: `${profile.name} — ${profile.role}`,
+    description: profile.intro,
+    url: "https://abhijaysalvi.com",
+    siteName: profile.name,
+    type: "website",
+  },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html
-      lang="en"
-      className={`${baloo.variable} ${nunito.variable} h-full antialiased`}
-    >
-      <body className="min-h-full flex flex-col relative">
-        <BlockBackground />
-        <CursorTrail />
-        <Nav />
-        <main className="flex-1 relative z-10">{children}</main>
+    <html lang="en" className={figtree.variable}>
+      <body className="h-full">
+        <PlayerProvider>
+          <div className="flex flex-col h-screen">
+            <div className="flex flex-1 min-h-0 gap-0 md:gap-2 md:p-2 md:pb-0">
+              <Sidebar />
+              <div
+                id="main-scroll"
+                className="scroll-area flex-1 min-w-0 overflow-y-auto rounded-none md:rounded-lg bg-bg"
+              >
+                <TopBar />
+                <main className="pb-16">{children}</main>
+              </div>
+            </div>
+            <Player />
+            <MobileNav />
+          </div>
+        </PlayerProvider>
       </body>
     </html>
   );

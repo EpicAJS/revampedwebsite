@@ -7,6 +7,7 @@ import Sidebar from "@/components/Sidebar";
 import TopBar from "@/components/TopBar";
 import Player from "@/components/Player";
 import MobileNav from "@/components/MobileNav";
+import { getAllPostSlugs } from "@/lib/posts";
 
 const figtree = Figtree({
   variable: "--font-figtree",
@@ -31,13 +32,16 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
+  // The Blog entry only exists in the library once there's something to read.
+  const hasPosts = getAllPostSlugs().length > 0;
+
   return (
     <html lang="en" className={figtree.variable}>
       <body className="h-full">
         <PlayerProvider>
           <div className="flex flex-col h-screen">
             <div className="flex flex-1 min-h-0 gap-0 md:gap-2 md:p-2 md:pb-0">
-              <Sidebar />
+              <Sidebar hasPosts={hasPosts} />
               <div
                 id="main-scroll"
                 className="scroll-area flex-1 min-w-0 overflow-y-auto rounded-none md:rounded-lg bg-bg"

@@ -2,18 +2,26 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { albums, playlists } from "@/content/albums";
+import { useMemo, useState } from "react";
+import { albums, playlists, BLOG_ART } from "@/content/albums";
+import { favoritePlaylists, podcasts } from "@/content/media";
 import { profile } from "@/content/profile";
 import AlbumArt from "./AlbumArt";
 
+type LibraryItem = {
+  id: string;
+  href: string;
+  title: string;
+  meta: string;
+  art: [string, string];
+  image?: string;
+  filter: "Albums" | "Playlists" | "Blog" | "Podcasts";
+  round?: boolean;
+  external?: boolean;
+};
+
 const primary = [
-  {
-    href: "/",
-    label: "Home",
-    icon: (
-      <path d="M12 3.1 2 11v10h7v-6h6v6h7V11L12 3.1z" />
-    ),
-  },
+  { href: "/", label: "Home", icon: <path d="M12 3.1 2 11v10h7v-6h6v6h7V11L12 3.1z" /> },
   {
     href: "/search",
     label: "Search",
@@ -30,8 +38,79 @@ const primary = [
   },
 ];
 
-export default function Sidebar() {
+export default function Sidebar({ hasPosts }: { hasPosts: boolean }) {
   const pathname = usePathname();
+  const [filter, setFilter] = useState<string | null>(null);
+
+  const items = useMemo<LibraryItem[]>(() => {
+    const list: LibraryItem[] = albums.map((a) => ({
+      id: a.id,
+      href: `/album/${a.id}`,
+      title: a.title,
+      meta: `Album · ${a.tracks.length} tracks`,
+      art: a.art,
+      image: a.image,
+      filter: "Albums",
+    }));
+
+    if (hasPosts) {
+      list.push({
+        id: "blog",
+        href: "/blog",
+        title: "Blog",
+        meta: "Album · Writing",
+        art: BLOG_ART,
+        filter: "Blog",
+      });
+    }
+
+    playlists.forEach((p) =>
+      list.push({
+        id: p.id,
+        href: p.href,
+        title: p.title,
+        meta: "Playlist",
+        art: p.art,
+        image: p.image,
+        filter: "Playlists",
+      })
+    );
+
+    favoritePlaylists.forEach((p) =>
+      list.push({
+        id: p.id,
+        href: p.url,
+        title: p.title,
+        meta: `Playlist · ${p.creator}`,
+        art: p.art,
+        image: p.image,
+        filter: "Playlists",
+        external: true,
+      })
+    );
+
+    podcasts.forEach((p) =>
+      list.push({
+        id: p.id,
+        href: p.url,
+        title: p.title,
+        meta: `Podcast · ${p.creator}`,
+        art: p.art,
+        image: p.image,
+        filter: "Podcasts",
+        external: true,
+      })
+    );
+
+    return list;
+  }, [hasPosts]);
+
+  const chips = useMemo(
+    () => [...new Set(items.map((item) => item.filter))],
+    [items]
+  );
+
+  const visible = filter ? items.filter((i) => i.filter === filter) : items;
 
   return (
     <aside className="hidden md:flex flex-col gap-2 w-[var(--sidebar-width)] shrink-0 p-2">
@@ -50,112 +129,128 @@ export default function Sidebar() {
         </Link>
 
         <ul className="flex flex-col">
-          {primary.map((item) => {
-            const active = pathname === item.href;
-            return (
-              <li key={item.href}>
-                <Link
-                  href={item.href}
-                  className={`flex items-center gap-4 px-2 py-2.5 rounded-md text-sm font-bold transition-colors ${
-                    active
-                      ? "text-white"
-                      : "text-muted hover:text-white"
-                  }`}
-                >
-                  <svg
-                    width="22"
-                    height="22"
-                    viewBox="0 0 24 24"
-                    fill="currentColor"
-                  >
-                    {item.icon}
-                  </svg>
-                  {item.label}
-                </Link>
-              </li>
-            );
-          })}
+          {primary.map((item) => (
+            <li key={item.href}>
+              <Link
+                href={item.href}
+                className={`flex items-center gap-4 px-2 py-2.5 rounded-md text-sm font-bold transition-colors ${
+                  pathname === item.href ? "text-white" : "text-muted hover:text-white"
+                }`}
+              >
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                  {item.icon}
+                </svg>
+                {item.label}
+              </Link>
+            </li>
+          ))}
         </ul>
       </nav>
 
       <div className="bg-elevated rounded-lg flex-1 min-h-0 flex flex-col">
-        <p className="px-5 pt-4 pb-3 text-sm font-bold text-muted">
+        <div className="flex items-center gap-2 px-5 pt-4 pb-3 text-sm font-bold text-muted">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M3 4h2v16H3zM7 4h2v16H7zM12.6 4.2l1.9-.5 4.1 15.4-1.9.5z" />
+          </svg>
           Your Library
-        </p>
+        </div>
+
+        {chips.length > 1 && (
+          <div className="flex flex-wrap gap-2 px-3 pb-3">
+            {filter && (
+              <button
+                type="button"
+                onClick={() => setFilter(null)}
+                aria-label="Clear filter"
+                className="grid place-items-center w-7 h-7 rounded-full bg-hover text-white hover:bg-white/25 transition-colors"
+              >
+                ✕
+              </button>
+            )}
+            {chips
+              .filter((chip) => !filter || chip === filter)
+              .map((chip) => (
+                <button
+                  key={chip}
+                  type="button"
+                  onClick={() => setFilter(filter === chip ? null : chip)}
+                  className={`rounded-full px-3 py-1 text-xs font-semibold transition-colors ${
+                    filter === chip
+                      ? "bg-white text-black"
+                      : "bg-hover text-white hover:bg-white/25"
+                  }`}
+                >
+                  {chip}
+                </button>
+              ))}
+          </div>
+        )}
+
         <div className="scroll-area overflow-y-auto px-2 pb-3 flex flex-col gap-1">
-          {albums.map((item) => (
+          {visible.map((item) => (
             <LibraryRow
               key={item.id}
-              href={`/album/${item.id}`}
-              art={item.art}
-              image={item.image}
-              title={item.title}
-              meta={`Album · ${item.tracks.length} tracks`}
-              active={pathname === `/album/${item.id}`}
-            />
-          ))}
-          {playlists.map((item) => (
-            <LibraryRow
-              key={item.id}
-              href={item.href}
-              art={item.art}
-              image={item.image}
-              title={item.title}
-              meta="Playlist"
+              item={item}
               active={pathname === item.href}
             />
           ))}
-          <LibraryRow
-            href="/artist"
-            art={["#3f3f46", "#18181b"]}
-            image={profile.photo || undefined}
-            title={profile.name}
-            meta="Artist"
-            active={pathname === "/artist"}
-            round
-          />
+          {!filter && (
+            <LibraryRow
+              item={{
+                id: "artist",
+                href: "/artist",
+                title: profile.name,
+                meta: "Artist",
+                art: ["#3f3f46", "#18181b"],
+                image: profile.photo || undefined,
+                filter: "Albums",
+                round: true,
+              }}
+              active={pathname === "/artist"}
+            />
+          )}
         </div>
       </div>
     </aside>
   );
 }
 
-function LibraryRow({
-  href,
-  art,
-  image,
-  title,
-  meta,
-  active,
-  round,
-}: {
-  href: string;
-  art: [string, string];
-  image?: string;
-  title: string;
-  meta: string;
-  active?: boolean;
-  round?: boolean;
-}) {
-  return (
-    <Link
-      href={href}
-      className={`flex items-center gap-3 p-2 rounded-md transition-colors ${
-        active ? "bg-hover" : "hover:bg-hover"
-      }`}
-    >
+function LibraryRow({ item, active }: { item: LibraryItem; active: boolean }) {
+  const inner = (
+    <>
       <AlbumArt
-        art={art}
-        image={image}
-        label={title}
+        art={item.art}
+        image={item.image}
+        label={item.title}
         sizes="48px"
         className="w-12 h-12 shrink-0"
-        rounded={round ? "rounded-full" : "rounded"}
+        rounded={item.round ? "rounded-full" : "rounded"}
       />
       <span className="min-w-0">
-        <span className="block text-sm font-semibold truncate">{title}</span>
-        <span className="block text-xs text-muted truncate">{meta}</span>
+        <span className="block text-sm font-semibold truncate">
+          {item.title}
+          {item.external && <span className="text-muted"> ↗</span>}
+        </span>
+        <span className="block text-xs text-muted truncate">{item.meta}</span>
       </span>
+    </>
+  );
+
+  const className = `flex items-center gap-3 p-2 rounded-md transition-colors ${
+    active ? "bg-hover" : "hover:bg-hover"
+  }`;
+
+  if (item.external) {
+    return (
+      <a href={item.href} target="_blank" rel="noopener noreferrer" className={className}>
+        {inner}
+      </a>
+    );
+  }
+
+  return (
+    <Link href={item.href} className={className}>
+      {inner}
     </Link>
   );
 }

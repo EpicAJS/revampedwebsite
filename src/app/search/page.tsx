@@ -1,6 +1,7 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { Suspense, useMemo, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { tracks } from "@/content/tracks";
 import { albums, playlists } from "@/content/albums";
@@ -8,7 +9,17 @@ import AlbumArt from "@/components/AlbumArt";
 import MediaCard from "@/components/MediaCard";
 
 export default function SearchPage() {
-  const [query, setQuery] = useState("");
+  return (
+    <Suspense fallback={null}>
+      <SearchView />
+    </Suspense>
+  );
+}
+
+function SearchView() {
+  const params = useSearchParams();
+  // Seeds from ?q= so the top bar's search box can hand off to this page.
+  const [query, setQuery] = useState(params.get("q") ?? "");
   const q = query.trim().toLowerCase();
 
   const results = useMemo(() => {

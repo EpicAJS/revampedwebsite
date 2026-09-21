@@ -78,6 +78,9 @@ export function albumForTrack(kind: TrackKind) {
   return albums.find((a) => a.kind === kind);
 }
 
+/** Cover gradient for the blog, shared by its album and post pages. */
+export const BLOG_ART: [string, string] = ["#7c2c3f", "#2e1018"];
+
 export type PlaylistMeta = {
   id: string;
   title: string;

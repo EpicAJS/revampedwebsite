@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import Link from "next/link";
 import { getAllPostSlugs, getPostBySlug } from "@/lib/posts";
 
 export async function generateStaticParams() {
@@ -19,15 +20,24 @@ export default async function BlogPost({
   const post = await getPostBySlug(slug);
 
   return (
-    <article className="px-6 py-20 max-w-3xl mx-auto">
-      <h1 className="text-3xl font-bold mb-2">{post.title}</h1>
-      <p className="text-sm text-black/50 dark:text-white/50 mb-8">
-        {post.date}
-      </p>
-      <div
-        className="prose dark:prose-invert max-w-none"
-        dangerouslySetInnerHTML={{ __html: post.contentHtml }}
-      />
+    <article className="px-6 py-24 max-w-3xl mx-auto">
+      <Link
+        href="/blog"
+        className="inline-block mb-10 text-sm tracked uppercase opacity-70 hover:opacity-100"
+        style={{ color: "var(--accent)" }}
+      >
+        ← Back to logbook
+      </Link>
+      <div className="border-t hairline pt-8">
+        <h1 className="text-4xl font-bold mb-2">{post.title}</h1>
+        <p className="text-sm tracked uppercase opacity-50 mb-10">
+          {post.date}
+        </p>
+        <div
+          className="prose prose-invert max-w-none prose-headings:uppercase prose-headings:tracking-wide prose-a:text-[var(--accent)]"
+          dangerouslySetInnerHTML={{ __html: post.contentHtml }}
+        />
+      </div>
     </article>
   );
 }

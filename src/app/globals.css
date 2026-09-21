@@ -2,26 +2,59 @@
 @plugin "@tailwindcss/typography";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #0a0a0c;
+  --foreground: #f2f2f0;
+  --surface: #141417;
+  --surface-line: rgba(255, 255, 255, 0.08);
+  --accent: #d5001c;
+  --accent-dim: #7a0010;
+  --silver: #a7a9ac;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  --color-surface: var(--surface);
+  --color-accent: var(--accent);
+  --color-silver: var(--silver);
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --font-display: var(--font-display);
+  --font-body: var(--font-body);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-body), Arial, Helvetica, sans-serif;
+  background-image:
+    radial-gradient(ellipse at top, rgba(213, 0, 28, 0.08), transparent 60%),
+    repeating-linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.015) 0px,
+      rgba(255, 255, 255, 0.015) 1px,
+      transparent 1px,
+      transparent 3px
+    );
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display), Arial, Helvetica, sans-serif;
+  text-transform: uppercase;
+}
+
+.tracked {
+  letter-spacing: 0.18em;
+}
+
+.hairline {
+  border-color: var(--surface-line);
+}
+
+.redline {
+  background: linear-gradient(
+    90deg,
+    var(--accent) 0%,
+    var(--accent) var(--redline-pct, 70%),
+    var(--surface-line) var(--redline-pct, 70%)
+  );
 }

@@ -173,7 +173,7 @@ export const tracks: Track[] = [
     role: "Team Member",
     kind: "project",
     dates: "PennApps",
-    start: "2025-09-01",
+    start: "2024-01-01",
     months: 1,
     summary:
       "An AR overlay for MRI tumor detection, pairing real-time frame analysis with a 3D brain tumor model surgeons can explore.",
@@ -220,7 +220,7 @@ export const tracks: Track[] = [
     role: "Team Member",
     kind: "project",
     dates: "Hackathon",
-    start: "2024-11-01",
+    start: "2024-01-01",
     months: 1,
     summary:
       "Turns crowdsourced disaster photos into AI-verified incidents on a live map, then routes people to the nearest safe zone.",
@@ -259,7 +259,7 @@ export const tracks: Track[] = [
     role: "Team Member",
     kind: "project",
     dates: "Hackathon",
-    start: "2023-06-01",
+    start: "2023-01-01",
     months: 1,
     summary:
       "A privacy-first digital identity platform for verification and access, built on Azure and Firebase.",
@@ -280,7 +280,7 @@ export const tracks: Track[] = [
     role: "Team Member",
     kind: "project",
     dates: "Hackathon",
-    start: "2023-05-01",
+    start: "2023-01-01",
     months: 1,
     summary:
       "An interactive storytelling engine where narratives branch from reader choices, generated with Vertex AI.",
@@ -301,7 +301,7 @@ export const tracks: Track[] = [
     role: "Team Member",
     kind: "project",
     dates: "Hackathon",
-    start: "2023-03-01",
+    start: "2023-01-01",
     months: 1,
     summary:
       "Augmented reality for memory preservation — revisit places and moments in an immersive 3D space.",

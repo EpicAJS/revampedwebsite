@@ -2,33 +2,42 @@
 
 import { motion } from "framer-motion";
 import type { ReactNode } from "react";
+import { COLORS, type ColorKey } from "@/lib/blocks";
 
 export default function BlockCard({
   color,
+  index = 0,
   children,
   className = "",
 }: {
-  color: string;
+  color: ColorKey;
+  index?: number;
   children: ReactNode;
   className?: string;
 }) {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 24 }}
+      initial={{ opacity: 0, y: -60 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-60px" }}
-      whileHover={{ y: -4, rotate: -0.5 }}
-      transition={{ type: "spring", stiffness: 300, damping: 20 }}
-      className={`rounded-2xl border-[3px] border-black/30 bg-board p-5 ${className}`}
-      style={{
-        boxShadow: `inset 0 0 0 3px rgba(255,255,255,0.03), 0 6px 0 rgba(0,0,0,0.25)`,
+      viewport={{ once: true, margin: "-80px" }}
+      transition={{
+        type: "spring",
+        stiffness: 420,
+        damping: 18,
+        delay: index * 0.07,
       }}
+      whileHover={{ y: -5, transition: { type: "spring", stiffness: 400 } }}
+      className={`relative panel p-6 overflow-hidden h-full ${className}`}
     >
       <div
-        className="h-2 w-14 rounded-full mb-4"
-        style={{ background: color }}
+        className="absolute -top-px left-0 h-1.5 w-full"
+        style={{ background: COLORS[color].bg }}
       />
-      {children}
+      <div
+        className="absolute -right-6 -bottom-6 w-24 h-24 rounded-2xl opacity-[0.07] rotate-12"
+        style={{ background: COLORS[color].bg }}
+      />
+      <div className="relative">{children}</div>
     </motion.div>
   );
 }

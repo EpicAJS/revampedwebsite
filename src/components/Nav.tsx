@@ -1,48 +1,43 @@
 import Link from "next/link";
 import { site } from "@/content/site";
-import { colorForIndex } from "@/lib/blockColors";
+import { COLORS, SECTION_COLOR } from "@/lib/blocks";
+import { tileStyle } from "./Tile";
 
 const links = [
-  { href: "/#about", label: "About" },
-  { href: "/#projects", label: "Projects" },
-  { href: "/#skills", label: "Skills" },
-  { href: "/blog", label: "Blog" },
-  { href: "/#contact", label: "Contact" },
+  { href: "/#about", label: "About", color: SECTION_COLOR.about },
+  { href: "/#projects", label: "Projects", color: SECTION_COLOR.projects },
+  { href: "/#skills", label: "Skills", color: SECTION_COLOR.skills },
+  { href: "/blog", label: "Blog", color: SECTION_COLOR.blog },
+  { href: "/#contact", label: "Contact", color: SECTION_COLOR.contact },
 ];
 
 export default function Nav() {
   return (
-    <header className="flex flex-wrap items-center justify-between gap-4 px-6 py-5">
-      <Link
-        href="/"
-        className="font-extrabold text-xl px-4 py-1.5 rounded-xl border-[3px] border-black/30"
-        style={{
-          background: "var(--block-yellow)",
-          color: "#3a2c00",
-          boxShadow: "inset 0 2px 0 rgba(255,255,255,0.4)",
-        }}
-      >
-        {site.shortName}
-      </Link>
-      <nav className="flex flex-wrap gap-2 text-sm">
-        {links.map((link, i) => {
-          const color = colorForIndex(i);
-          return (
+    <header className="sticky top-0 z-40 backdrop-blur-md bg-[rgba(16,19,43,0.72)] border-b border-white/5">
+      <div className="flex flex-wrap items-center justify-between gap-3 px-6 py-3.5 max-w-6xl mx-auto">
+        <Link
+          href="/"
+          className="tile tile-lg px-3.5 py-1.5 font-extrabold text-lg leading-none transition-transform hover:-translate-y-0.5"
+          style={{ ...tileStyle("red"), color: COLORS.red.text }}
+        >
+          {site.shortName}
+        </Link>
+        <nav className="flex flex-wrap gap-2 text-sm">
+          {links.map((link) => (
             <Link
               key={link.href}
               href={link.href}
-              className="font-bold px-3 py-1.5 rounded-xl border-[3px] border-black/30 transition-transform hover:-translate-y-0.5"
+              className="tile px-3 py-1.5 font-extrabold transition-transform hover:-translate-y-0.5 active:translate-y-0.5"
               style={{
-                background: color.bg,
-                color: color.text,
-                boxShadow: "inset 0 2px 0 rgba(255,255,255,0.35)",
+                ...tileStyle(link.color),
+                color: COLORS[link.color].text,
               }}
             >
               {link.label}
             </Link>
-          );
-        })}
-      </nav>
+          ))}
+        </nav>
+      </div>
     </header>
   );
 }

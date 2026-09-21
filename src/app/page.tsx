@@ -1,158 +1,210 @@
+import Link from "next/link";
 import { site, projects, skills } from "@/content/site";
-import { colorForIndex } from "@/lib/blockColors";
+import { COLORS, COLOR_KEYS, SECTION_COLOR } from "@/lib/blocks";
 import BlockCard from "@/components/BlockCard";
 import BlockTag from "@/components/BlockTag";
-import MiniBoard from "@/components/MiniBoard";
+import SectionHeader from "@/components/SectionHeader";
+import PlayableBoard from "@/components/PlayableBoard";
+import DropTitle from "@/components/DropTitle";
+import LevelHUD from "@/components/LevelHUD";
+import { tileStyle } from "@/components/Tile";
+
+const hudSections = [
+  { id: "about", label: "About", color: SECTION_COLOR.about },
+  { id: "projects", label: "Projects", color: SECTION_COLOR.projects },
+  { id: "skills", label: "Skills", color: SECTION_COLOR.skills },
+  { id: "contact", label: "Contact", color: SECTION_COLOR.contact },
+];
 
 export default function Home() {
   return (
     <>
+      <LevelHUD sections={hudSections} />
+
       <section
         id="about"
-        className="px-6 pt-16 pb-24 max-w-6xl mx-auto grid gap-12 lg:grid-cols-[1.1fr_1fr] items-center"
+        className="px-6 pt-14 pb-28 max-w-6xl mx-auto grid gap-14 lg:grid-cols-[1.05fr_minmax(0,460px)] items-center"
       >
         <div>
           <span
-            className="inline-block px-3 py-1 rounded-lg text-xs font-bold border-2 border-black/30 mb-5"
-            style={{ background: "var(--block-green)", color: "#0f3a20" }}
+            className="tile inline-block px-3 py-1 text-xs font-extrabold tracking-wider mb-6"
+            style={{
+              ...tileStyle(SECTION_COLOR.about),
+              color: COLORS[SECTION_COLOR.about].text,
+            }}
           >
-            new high score
+            LVL 01 — PLAYER PROFILE
           </span>
-          <h1 className="text-5xl sm:text-6xl font-extrabold leading-tight mb-6">
-            Hi, I&apos;m{" "}
-            <span
-              className="inline-block px-3 py-1 rounded-2xl border-[3px] border-black/30 rotate-[-1deg]"
+
+          <h1 className="text-4xl sm:text-5xl font-extrabold leading-tight mb-4">
+            Hi, I&apos;m
+          </h1>
+          <div className="mb-8">
+            <DropTitle text={site.name} />
+          </div>
+
+          <p className="text-lg opacity-80 mb-5 max-w-lg">{site.tagline}</p>
+          <p className="opacity-70 max-w-lg mb-8">{site.bio}</p>
+
+          <div className="flex flex-wrap gap-3">
+            <a
+              href="#projects"
+              className="tile tile-lg px-5 py-2.5 font-extrabold transition-transform hover:-translate-y-1 active:translate-y-0.5"
               style={{
-                background: "var(--block-blue)",
-                color: "#0f2540",
-                boxShadow: "inset 0 3px 0 rgba(255,255,255,0.35)",
+                ...tileStyle(SECTION_COLOR.projects),
+                color: COLORS[SECTION_COLOR.projects].text,
               }}
             >
-              {site.name}
-            </span>
-          </h1>
-          <p className="text-lg opacity-80 mb-6">{site.tagline}</p>
-          <p className="opacity-90 max-w-lg">{site.bio}</p>
+              See my work
+            </a>
+            <a
+              href="#contact"
+              className="tile tile-lg px-5 py-2.5 font-extrabold transition-transform hover:-translate-y-1 active:translate-y-0.5"
+              style={{
+                ...tileStyle(SECTION_COLOR.contact),
+                color: COLORS[SECTION_COLOR.contact].text,
+              }}
+            >
+              Get in touch
+            </a>
+          </div>
         </div>
-        <div className="p-4 rounded-3xl border-[3px] border-black/30 bg-board">
-          <p className="text-xs font-bold opacity-60 mb-3 uppercase tracking-wide">
-            click a tile
-          </p>
-          <MiniBoard />
-        </div>
+
+        <PlayableBoard />
       </section>
 
       <section id="projects" className="px-6 py-24 max-w-6xl mx-auto">
-        <div className="flex items-center gap-4 mb-10">
-          <h2 className="text-3xl font-extrabold">Projects</h2>
-          <div
-            className="h-3 flex-1 max-w-24 rounded-full"
-            style={{ background: "var(--block-orange)" }}
-          />
-        </div>
+        <SectionHeader
+          level={2}
+          title="Projects"
+          color={SECTION_COLOR.projects}
+        />
         <div className="grid gap-6 sm:grid-cols-2">
-          {projects.map((project, i) => {
-            const color = colorForIndex(i);
-            return (
-              <BlockCard key={project.slug} color={color.bg}>
-                <h3 className="font-extrabold text-lg mb-2">
-                  {project.title}
-                </h3>
-                <p className="text-sm opacity-80 mb-4">
-                  {project.description}
-                </p>
-                <div className="flex flex-wrap gap-2 mb-4">
-                  {project.tags.map((tag, ti) => {
-                    const tagColor = colorForIndex(ti + i);
-                    return (
-                      <BlockTag
-                        key={tag}
-                        label={tag}
-                        color={tagColor.bg}
-                        textColor={tagColor.text}
-                      />
-                    );
-                  })}
-                </div>
-                <div className="flex gap-4 text-sm font-bold">
-                  {project.link && (
-                    <a href={project.link} className="underline">
-                      Live ↗
-                    </a>
-                  )}
-                  {project.repo && (
-                    <a href={project.repo} className="underline">
-                      Repo ↗
-                    </a>
-                  )}
-                </div>
-              </BlockCard>
-            );
-          })}
-        </div>
-      </section>
-
-      <section id="skills" className="px-6 py-24 max-w-6xl mx-auto">
-        <div className="flex items-center gap-4 mb-10">
-          <h2 className="text-3xl font-extrabold">Skills</h2>
-          <div
-            className="h-3 flex-1 max-w-24 rounded-full"
-            style={{ background: "var(--block-purple)" }}
-          />
-        </div>
-        <div className="grid gap-6 sm:grid-cols-2">
-          {skills.map((group, gi) => (
-            <BlockCard key={group.category} color={colorForIndex(gi + 2).bg}>
-              <h3 className="font-extrabold mb-3">{group.category}</h3>
-              <div className="flex flex-wrap gap-2">
-                {group.items.map((item, ii) => {
-                  const color = colorForIndex(ii + gi);
-                  return (
-                    <BlockTag
-                      key={item}
-                      label={item}
-                      color={color.bg}
-                      textColor={color.text}
-                    />
-                  );
-                })}
+          {projects.map((project, i) => (
+            <BlockCard
+              key={project.slug}
+              color={SECTION_COLOR.projects}
+              index={i}
+            >
+              <h3 className="font-extrabold text-xl mb-2">{project.title}</h3>
+              <p className="text-sm opacity-75 mb-5">{project.description}</p>
+              <div className="flex flex-wrap gap-2 mb-5">
+                {project.tags.map((tag, ti) => (
+                  <BlockTag
+                    key={tag}
+                    label={tag}
+                    color={COLOR_KEYS[(ti + i) % COLOR_KEYS.length]}
+                  />
+                ))}
+              </div>
+              <div className="flex gap-4 text-sm font-extrabold">
+                {project.link && (
+                  <a
+                    href={project.link}
+                    className="hover:opacity-70"
+                    style={{ color: COLORS[SECTION_COLOR.projects].bg }}
+                  >
+                    Live ↗
+                  </a>
+                )}
+                {project.repo && (
+                  <a href={project.repo} className="opacity-60 hover:opacity-100">
+                    Repo ↗
+                  </a>
+                )}
               </div>
             </BlockCard>
           ))}
         </div>
       </section>
 
-      <section id="contact" className="px-6 py-24 max-w-6xl mx-auto">
-        <div
-          className="rounded-3xl border-[3px] border-black/30 p-10 text-center"
-          style={{
-            background: "var(--block-yellow)",
-            color: "#3a2c00",
-            boxShadow: "inset 0 4px 0 rgba(255,255,255,0.4)",
-          }}
-        >
-          <h2 className="text-3xl font-extrabold mb-4">Let&apos;s connect</h2>
-          <p className="mb-6 opacity-80">
-            Got a project, an opportunity, or just want to say hi?
-          </p>
-          <a
-            href={`mailto:${site.email}`}
-            className="inline-block px-6 py-3 rounded-xl font-extrabold border-[3px] border-black/30 bg-white mb-6"
-          >
-            {site.email}
-          </a>
-          <div className="flex justify-center gap-4 font-bold">
-            <a href={site.socials.github} className="underline">
-              GitHub
-            </a>
-            <a href={site.socials.linkedin} className="underline">
-              LinkedIn
-            </a>
-            <a href={site.socials.twitter} className="underline">
-              X
-            </a>
-          </div>
+      <section id="skills" className="px-6 py-24 max-w-6xl mx-auto">
+        <SectionHeader level={3} title="Skills" color={SECTION_COLOR.skills} />
+        <div className="grid gap-6 sm:grid-cols-2">
+          {skills.map((group, gi) => (
+            <BlockCard key={group.category} color={SECTION_COLOR.skills} index={gi}>
+              <h3 className="font-extrabold text-lg mb-4">{group.category}</h3>
+              <div className="flex flex-wrap gap-2">
+                {group.items.map((item, ii) => (
+                  <BlockTag
+                    key={item}
+                    label={item}
+                    color={COLOR_KEYS[(ii + gi) % COLOR_KEYS.length]}
+                  />
+                ))}
+              </div>
+            </BlockCard>
+          ))}
         </div>
+      </section>
+
+      <section id="blog-teaser" className="px-6 py-24 max-w-6xl mx-auto">
+        <SectionHeader level={4} title="Blog" color={SECTION_COLOR.blog} />
+        <BlockCard color={SECTION_COLOR.blog}>
+          <div className="flex flex-wrap items-center justify-between gap-6">
+            <div>
+              <h3 className="font-extrabold text-xl mb-2">
+                Build logs & writeups
+              </h3>
+              <p className="opacity-70 max-w-md">
+                Notes on what I&apos;m building, breaking, and figuring out.
+              </p>
+            </div>
+            <Link
+              href="/blog"
+              className="tile tile-lg px-5 py-2.5 font-extrabold transition-transform hover:-translate-y-1 active:translate-y-0.5"
+              style={{
+                ...tileStyle(SECTION_COLOR.blog),
+                color: COLORS[SECTION_COLOR.blog].text,
+              }}
+            >
+              Read posts →
+            </Link>
+          </div>
+        </BlockCard>
+      </section>
+
+      <section id="contact" className="px-6 py-24 pb-32 max-w-6xl mx-auto">
+        <SectionHeader level={5} title="Contact" color={SECTION_COLOR.contact} />
+        <BlockCard color={SECTION_COLOR.contact}>
+          <div className="text-center py-8">
+            <h3 className="text-2xl sm:text-3xl font-extrabold mb-3">
+              Let&apos;s connect
+            </h3>
+            <p className="opacity-70 mb-8">
+              Got a project, an opportunity, or just want to say hi?
+            </p>
+            <a
+              href={`mailto:${site.email}`}
+              className="tile tile-lg inline-block px-6 py-3 font-extrabold mb-8 transition-transform hover:-translate-y-1 active:translate-y-0.5"
+              style={{
+                ...tileStyle(SECTION_COLOR.contact),
+                color: COLORS[SECTION_COLOR.contact].text,
+              }}
+            >
+              {site.email}
+            </a>
+            <div className="flex justify-center flex-wrap gap-3">
+              {[
+                { href: site.socials.github, label: "GitHub" },
+                { href: site.socials.linkedin, label: "LinkedIn" },
+                { href: site.socials.twitter, label: "X" },
+              ].map((social, i) => (
+                <a
+                  key={social.label}
+                  href={social.href}
+                  className="tile px-4 py-2 text-sm font-extrabold transition-transform hover:-translate-y-1"
+                  style={{
+                    ...tileStyle(COLOR_KEYS[i % COLOR_KEYS.length]),
+                    color: COLORS[COLOR_KEYS[i % COLOR_KEYS.length]].text,
+                  }}
+                >
+                  {social.label}
+                </a>
+              ))}
+            </div>
+          </div>
+        </BlockCard>
       </section>
     </>
   );

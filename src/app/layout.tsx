@@ -3,7 +3,8 @@ import { Baloo_2, Nunito } from "next/font/google";
 import "./globals.css";
 import { site } from "@/content/site";
 import Nav from "@/components/Nav";
-import BoardBackground from "@/components/BoardBackground";
+import BlockBackground from "@/components/BlockBackground";
+import CursorTrail from "@/components/CursorTrail";
 
 const baloo = Baloo_2({
   variable: "--font-display",
@@ -29,7 +30,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${baloo.variable} ${nunito.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col relative">
-        <BoardBackground />
+        <BlockBackground />
+        <CursorTrail />
         <Nav />
         <main className="flex-1 relative z-10">{children}</main>
       </body>

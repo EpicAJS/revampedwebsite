@@ -8,6 +8,7 @@ import AlbumArt from "@/components/AlbumArt";
 import PlayButton from "@/components/PlayButton";
 import TrackRow from "@/components/TrackRow";
 import TrackActions from "@/components/TrackActions";
+import LyricsPanel from "@/components/LyricsPanel";
 
 export function generateStaticParams() {
   return tracks.map((track) => ({ id: track.id }));
@@ -127,33 +128,18 @@ export default async function TrackPage({
         </div>
 
         <div className="grid gap-6 lg:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)] pb-8">
-          <section
-            className="rounded-lg p-6 sm:p-8"
-            style={{
-              background: `linear-gradient(160deg, ${track.art[0]} 0%, ${track.art[1]} 130%)`,
-            }}
-          >
-            <h2 className="text-lg font-extrabold mb-6">Lyrics</h2>
-            <div className="flex flex-col gap-5">
-              <p className="text-xl sm:text-2xl font-bold leading-snug text-white">
-                {track.summary}
-              </p>
-              {track.highlights.map((line) => (
-                <p
-                  key={line}
-                  className="text-xl sm:text-2xl font-bold leading-snug text-white/55"
-                >
-                  {line}
-                </p>
-              ))}
-            </div>
-
+          <div className="flex flex-col gap-4">
+            <LyricsPanel
+              lines={[track.summary, ...track.highlights]}
+              track={nowPlaying}
+              art={track.art}
+            />
             {track.award && (
-              <p className="mt-8 inline-block rounded-full bg-black/35 px-4 py-2 text-sm font-bold">
+              <p className="inline-block self-start rounded-full bg-white/10 px-4 py-2 text-sm font-bold">
                 🏆 {track.award}
               </p>
             )}
-          </section>
+          </div>
 
           <div className="flex flex-col gap-6">
             <section className="rounded-lg bg-elevated p-6">

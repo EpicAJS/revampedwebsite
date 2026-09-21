@@ -42,7 +42,9 @@ export default async function TrackPage({
   if (!track) notFound();
 
   const album = albumForTrack(track.kind);
-  const year = track.start.slice(0, 4);
+  // Some hackathon entries carry no real date — their sort key is an estimate,
+  // so only show a year when the displayed date string actually states one.
+  const year = track.dates.match(/\b(20\d{2})\b/)?.[1];
   const duration = trackDuration(track);
 
   const nowPlaying = {
@@ -105,8 +107,12 @@ export default async function TrackPage({
                   </Link>
                 </>
               )}
-              <Dot />
-              <span className="text-white/75">{year}</span>
+              {year && (
+                <>
+                  <Dot />
+                  <span className="text-white/75">{year}</span>
+                </>
+              )}
               <Dot />
               <span className="text-white/75">{duration}</span>
             </div>

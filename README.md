@@ -26,6 +26,15 @@ All content lives in `src/content/` as plain TypeScript. No CMS, no database.
 | `profile.ts` | Name, bio, education, skills, socials, interests |
 | `tracks.ts` | Every job, project, and research role |
 | `albums.ts` | How tracks group into albums, plus playlist metadata |
+| `media.ts` | Your own playlists and podcasts (these link out) |
+
+Blog posts are Markdown files in `content/blog/` — see
+[`content/blog/_README.md`](content/blog/_README.md).
+
+**Sections hide when empty.** With no blog posts, no Blog appears anywhere.
+With `favoritePlaylists` and `podcasts` empty, the Listening shelves and the
+category chips that filter to them don't render. So you can fill these in one
+at a time without the site ever looking half-finished.
 
 To add a project, append an object to `tracks` in `tracks.ts` with
 `kind: "project"`. It automatically appears in the Projects album, in search,

@@ -96,8 +96,8 @@ modern formats automatically. See `public/covers/README.md` for details.
 
    | Variable | Value |
    | --- | --- |
-   | `SUPABASE_URL` | Supabase → Project Settings → API → Project URL |
-   | `SUPABASE_SERVICE_ROLE_KEY` | Same page, the **service role** key |
+   | `SUPABASE_URL` | `https://<project-id>.supabase.co` — the project ID is under Settings → General |
+   | `SUPABASE_SERVICE_ROLE_KEY` | Settings → API Keys. The **secret** key (`sb_secret_…`) on newer projects, or **service_role** on older ones. Never the publishable/anon key |
    | `ADMIN_PASSWORD` | A long random password for `/admin` |
    | `APP_SECRET` | `openssl rand -hex 32` |
 

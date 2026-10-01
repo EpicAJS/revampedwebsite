@@ -8,6 +8,8 @@ import TopBar from "@/components/TopBar";
 import Player from "@/components/Player";
 import MobileNav from "@/components/MobileNav";
 import { getAllPostSlugs } from "@/lib/posts";
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const figtree = Figtree({
   variable: "--font-figtree",
@@ -54,6 +56,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
             <MobileNav />
           </div>
         </PlayerProvider>
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );

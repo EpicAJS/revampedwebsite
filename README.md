@@ -83,6 +83,7 @@ modern formats automatically. See `public/covers/README.md` for details.
 | `/playlist/ama` | Ask Me Anything |
 | `/playlist/recommendations` | Song recommendations |
 | `/admin` | Moderation queue (password protected) |
+| `/api/health` | Setup diagnostic — reports whether the database is wired up |
 
 ## Enabling submissions
 
@@ -100,9 +101,33 @@ modern formats automatically. See `public/covers/README.md` for details.
    | `ADMIN_PASSWORD` | A long random password for `/admin` |
    | `APP_SECRET` | `openssl rand -hex 32` |
 
-4. **Redeploy.** Submissions go live, and `/admin` becomes usable.
+4. **Redeploy**, then open
+   [abhijaysalvi.com/api/health](https://abhijaysalvi.com/api/health). It
+   reports what's connected:
+
+   ```json
+   {
+     "configured": true,
+     "tables": { "questions": true, "songs": true, "submission_log": true },
+     "adminPasswordSet": true,
+     "appSecretSet": true,
+     "hint": "Database is ready."
+   }
+   ```
+
+   Any `false` tells you exactly which step is outstanding. It returns
+   booleans only — never credentials, error text, or row counts.
 
 See `.env.example` for the local equivalent.
+
+## Analytics
+
+Vercel Web Analytics and Speed Insights are wired into the root layout. Both
+need switching on once in the Vercel dashboard (**Analytics** and **Speed
+Insights** tabs → Enable); until then the scripts load but report nothing.
+
+Analytics is cookieless and collects no personal data, so the site needs no
+cookie banner.
 
 ## Security model
 
